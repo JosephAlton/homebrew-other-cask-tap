@@ -35,7 +35,7 @@ The main [homebrew-cask](https://github.com/Homebrew/homebrew-cask) will not all
 
 This tap, is meant to store software, where there is a degree of trust, but it has not been signed.  That being said YOU take full responsibility, for using any software in this tap.
 
-# Tap
+# Tap (optional)
 
 Think of a "tap" like a package repository.
 
@@ -68,10 +68,13 @@ brew update
 # Casks
 
 ## Install a cask
+
 Casks are like the programs within the specific tap.
 
+It is recommended to use the full qualifie ( `josephalton/other-cask-tap/` ) when installing a Cask from this tap for clarity...
+
 ```bash
-brew install --cask examplecask
+brew install --cask josephalton/other-cask-tap/<examplecask>
 ```
 
 ## Update
