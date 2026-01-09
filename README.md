@@ -61,6 +61,8 @@ brew untap josephalton/other-cask-tap
 ```
 ## Update
 
+To make sure you are upto date with the Casks in this tap, periodically do this:
+
 ```bash
 brew update
 ```
@@ -73,22 +75,28 @@ brew update
 
 Casks are like the programs within the specific tap.
 
+I have given the prefix `other-` to differentiate this from the main Homebrew tap (and other taps).
 
+So install like so:
+
+(for instance):
 
 ```bash
-brew install --cask josephalton/other-cask-tap/<examplecask>
+brew install --cask other-wine-stable
 ```
 
-## Update
+however, to be extra careful you can also give the full-path
 
 ```bash
-brew upgrade
+brew install --cask josephalton/other-cask-tap/other-wine-stable
 ```
 
 ## Uninstall
 
+e.g.
+
 ```bash
-brew remove <examplecask>
+brew remove other-wine-stable
 ```
 
 # Contributing
