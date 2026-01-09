@@ -1,6 +1,8 @@
 # About
 
-A Homebrew package manager tap for various Casks.
+A Homebrew package manager tap for various Casks not in the main tap.
+
+They are given the prefix `other-` to make explicit they are from this tap specifically, and for easy dependency management.
 
 The Casks have the following properties:
 
@@ -71,7 +73,7 @@ brew update
 
 Casks are like the programs within the specific tap.
 
-It is recommended to use the full qualifie ( `josephalton/other-cask-tap/` ) when installing a Cask from this tap for clarity...
+
 
 ```bash
 brew install --cask josephalton/other-cask-tap/<examplecask>
@@ -86,9 +88,9 @@ brew upgrade
 ## Uninstall
 
 ```bash
-brew remove examplecask
+brew remove <examplecask>
 ```
 
 # Contributing
 
-Contributions are welcome. A comment above the Cask .rb file explaining why it is not being added to the main homebrew-cask repository would be useful.
+Contributions/suggestions are welcome. A comment above the Cask .rb file explaining why it is not being added to the main homebrew-cask repository would be useful.

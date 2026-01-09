@@ -1,4 +1,4 @@
-cask "gstreamer-runtime" do
+cask "other-gstreamer-runtime" do
   version "1.26.10"
   sha256 "48898f1969dc79f8d0523a717215e30d7fd5cb58640a810a824410c684353abc"
 

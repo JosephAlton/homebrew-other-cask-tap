@@ -1,5 +1,5 @@
 # unnotarized
-cask "okular" do
+cask "other-okular" do
   arch arm: "arm64", intel: "x86_64"
 
   version "6171"
