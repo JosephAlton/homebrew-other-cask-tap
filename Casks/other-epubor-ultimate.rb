@@ -1,4 +1,4 @@
-cask "epubor-ultimate" do
+cask "other-epubor-ultimate" do
 #   version "3.0.16.581"
   sha256 :no_check
 
