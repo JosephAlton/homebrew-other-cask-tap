@@ -1,3 +1,4 @@
+# installing cask works, but a process seems to remain running, for now, just cancel the terminal process once you are confident it is installed.
 cask "other-epubor-ultimate" do
 #   version "3.0.16.581"
   version :latest
