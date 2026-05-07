@@ -1,0 +1,110 @@
+name: Update Okular Cask
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-okular:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect latest Okular build
+        id: detect
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import os
+          import re
+          import sys
+          from urllib.request import urlopen
+
+          listing_url = "https://cdn.kde.org/ci-builds/graphics/okular/master/macos-arm64/"
+          cask_path = "Casks/other-okular.rb"
+
+          try:
+            with urlopen(listing_url) as response:
+              html = response.read().decode("utf-8", errors="ignore")
+          except Exception as exc:
+            print(f"Failed to fetch KDE listing: {exc}", file=sys.stderr)
+            sys.exit(1)
+
+          matches = [int(m) for m in re.findall(r"okular-master-(\d+)-macos-clang-arm64\.dmg", html)]
+          if not matches:
+            print("Could not parse any Okular build number from listing.", file=sys.stderr)
+            sys.exit(1)
+
+          latest = str(max(matches))
+
+          with open(cask_path, "r", encoding="utf-8") as file:
+            cask_text = file.read()
+
+          current_match = re.search(r'^\s*version\s+"(\d+)"\s*$', cask_text, flags=re.MULTILINE)
+          if not current_match:
+            print("Could not parse current version from cask.", file=sys.stderr)
+            sys.exit(1)
+
+          current = current_match.group(1)
+
+          output_path = os.environ["GITHUB_OUTPUT"]
+          with open(output_path, "a", encoding="utf-8") as output:
+            output.write(f"current={current}\n")
+            output.write(f"latest={latest}\n")
+            output.write(f"changed={'true' if latest != current else 'false'}\n")
+          PY
+
+      - name: Update cask version
+        if: steps.detect.outputs.changed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import re
+
+          cask_path = "Casks/other-okular.rb"
+          latest = "${{ steps.detect.outputs.latest }}"
+
+          with open(cask_path, "r", encoding="utf-8") as file:
+            cask_text = file.read()
+
+          updated, count = re.subn(
+            r'(^\s*version\s+")\d+("\s*$)',
+            rf"\g<1>{latest}\2",
+            cask_text,
+            count=1,
+            flags=re.MULTILINE,
+          )
+          if count != 1:
+            raise SystemExit("Failed to update version line in cask.")
+
+          with open(cask_path, "w", encoding="utf-8") as file:
+            file.write(updated)
+          PY
+
+      - name: Commit and push changes
+        if: steps.detect.outputs.changed == 'true'
+        env:
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add Casks/other-okular.rb
+          git commit -m "other-okular: bump to ${{ steps.detect.outputs.latest }}"
+          git push origin HEAD:${GITHUB_REF_NAME}
+
+      - name: No update needed
+        if: steps.detect.outputs.changed != 'true'
+        run: echo "other-okular is already up to date (${{ steps.detect.outputs.current }})."
