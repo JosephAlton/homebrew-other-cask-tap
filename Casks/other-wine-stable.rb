@@ -1,5 +1,5 @@
 cask "other-wine-stable" do
-  version "10.0_3"
+  version "11.0_1"
   sha256 :no_check
 
   # Current winehq packages are deprecated and these are packages from
