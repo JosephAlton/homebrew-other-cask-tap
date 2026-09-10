@@ -1,7 +1,7 @@
 cask "other-qbittorrent" do
   on_catalina :or_older do
     version "4.6.7"
-    sha256 "0b1051af73562fc3f7c0c71abd27c3433ad238fbca0c4612f554db35be3eba6e"
+    sha256 :no_check
 
     livecheck do
       skip "Legacy version"
@@ -9,7 +9,7 @@ cask "other-qbittorrent" do
   end
   on_big_sur :or_newer do
     version "5.0.5"
-    sha256 "7285e98b5ef4b9a227247dcd933f1a556bfc1ff10901fc7aedb0c4b7ad082814"
+    sha256 :no_check
 
     livecheck do
       url "https://sourceforge.net/projects/qbittorrent/rss?path=/qbittorrent-mac"

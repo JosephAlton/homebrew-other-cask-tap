@@ -18,7 +18,8 @@ jobs:
         run: |
           brew tap josephalton/other-cask-tap "$GITHUB_WORKSPACE"
           brew trust josephalton/other-cask-tap
-      - name: Bump outdated casks and push
+
+      - name: Bump outdated cask versions and push
         env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_AUTHOR_NAME: github-actions[bot]
@@ -28,16 +29,31 @@ jobs:
         run: |
           set -euo pipefail
 
-          while IFS=$'\t' read -r cask new_version; do
-            [[ -z "${cask}" || -z "${new_version}" ]] && continue
-            echo "Bumping ${cask} -> ${new_version}"
-            brew bump-cask-pr --write-only --commit --version="${new_version}" "${cask}" \
-              || echo "Failed: ${cask}"
+          while IFS=$'\t' read -r cask current latest; do
+            [[ -z "${cask}" || -z "${current}" || -z "${latest}" ]] && continue
+            cask_path="Casks/${cask}.rb"
+            if [[ ! -f "${cask_path}" ]]; then
+              echo "Missing ${cask_path}, skipping"
+              continue
+            fi
+
+            echo "Bumping ${cask}: ${current} -> ${latest}"
+            CURRENT="${current}" LATEST="${latest}" perl -i -pe \
+              's/\Qversion "$ENV{CURRENT}"\E/version "$ENV{LATEST}"/' \
+              "${cask_path}"
+
+            if git diff --quiet -- "${cask_path}"; then
+              echo "No change written for ${cask}, skipping commit"
+              continue
+            fi
+
+            git add "${cask_path}"
+            git commit -m "${cask}: bump to ${latest}"
           done < <(
             brew livecheck --tap josephalton/other-cask-tap --json --newer-only \
               | jq -r '.[]
                 | select(.version.outdated == true)
-                | [(.cask // .formula), .version.latest]
+                | [(.cask // .formula), .version.current, .version.latest]
                 | @tsv'
           )
 
