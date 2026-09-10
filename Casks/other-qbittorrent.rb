@@ -8,7 +8,7 @@ cask "other-qbittorrent" do
     end
   end
   on_big_sur :or_newer do
-    version "5.0.5"
+    version "5.2.3"
     sha256 :no_check
 
     livecheck do
