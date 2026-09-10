@@ -10,6 +10,11 @@ cask "other-mark-text" do
   desc "Markdown editor"
   homepage "https://github.com/marktext/marktext"
 
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
 #   disable! date: "2026-09-01", because: :fails_gatekeeper_check
 
   auto_updates true

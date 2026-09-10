@@ -2,8 +2,7 @@ cask "other-lyx" do
   version "2.5.1,6"
   sha256 "1c3a8cbf7c81e9d06b53e1ba291119363881b347722816cf53b6b912b3589370"
 
-  url "https://ftp.lip6.fr/pub/lyx/bin/#{version.csv.first.major_minor_patch}/LyX-#{version.csv.first}+qt#{version.csv.second}-x86_64-arm64-cocoa.dmg",
-      verified: "ftp.lip6.fr/pub/lyx/bin/"
+  url "https://ftp.lip6.fr/pub/lyx/bin/#{version.csv.first.major_minor_patch}/LyX-#{version.csv.first}+qt#{version.csv.second}-x86_64-arm64-cocoa.dmg"
   name "LyX"
   desc "GUI document processor based on the LaTeX typesetting system"
   homepage "https://www.lyx.org/"

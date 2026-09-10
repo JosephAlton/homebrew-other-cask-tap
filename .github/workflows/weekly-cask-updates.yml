@@ -1,0 +1,42 @@
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bump:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tap this checkout
+        run: |
+          brew tap josephalton/other-cask-tap "$GITHUB_WORKSPACE"
+          brew trust josephalton/other-cask-tap
+      - name: Bump outdated casks and push
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        run: |
+          set -euo pipefail
+          outdated=$(brew livecheck --tap josephalton/other-cask-tap --json --newer-only \
+            | jq -r '.[] | select(.version.outdated == true) | .cask // .formula')
+
+          if [[ -z "${outdated}" ]]; then
+            echo "Nothing to update"
+            exit 0
+          fi
+
+          for cask in ${outdated}; do
+            brew bump-cask-pr --write-only --commit "${cask}" || echo "Failed: ${cask}"
+          done
+
+          git push origin HEAD:"${GITHUB_REF_NAME}"
