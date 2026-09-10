@@ -37,6 +37,18 @@ The main [homebrew-cask](https://github.com/Homebrew/homebrew-cask) will not all
 
 This tap, is meant to store software, where there is a degree of trust, but it has not been signed.  That being said YOU take full responsibility, for using any software in this tap.
 
+Each cask’s `.rb` file shows the download URL. Judge that source the same way you would if you fetched the app yourself.
+
+# Notes to be aware
+
+Casks here skip SHA-256 verification (`sha256 :no_check`) so auto-updates via livecheck stay cheap. Official Homebrew generally requires a checksum. This is intentional, not an omission.
+
+
+# Updates
+
+Update checks are scheduled weekly on a Monday for all casks with livecheck. Otherwise work is manual.
+
+
 # Tap (optional)
 
 Think of a "tap" like a package repository.
@@ -127,3 +139,5 @@ brew remove other-wine-stable
 # Contributing
 
 Contributions/suggestions are welcome. A comment above the Cask .rb file explaining why it is not being added to the main homebrew-cask repository would be useful.
+
+If the cask uses `livecheck`, set `sha256 :no_check`. Weekly auto-updates only bump the version string, so a pinned checksum would break installs after a bump.

@@ -29,6 +29,8 @@ jobs:
         run: |
           set -euo pipefail
 
+          bumped=()
+
           while IFS=$'\t' read -r cask current latest; do
             [[ -z "${cask}" || -z "${current}" || -z "${latest}" ]] && continue
             cask_path="Casks/${cask}.rb"
@@ -37,18 +39,18 @@ jobs:
               continue
             fi
 
-            echo "Bumping ${cask}: ${current} -> ${latest}"
+            echo "Bumping ${cask}: ${current} --> ${latest}"
             CURRENT="${current}" LATEST="${latest}" perl -i -pe \
               's/\Qversion "$ENV{CURRENT}"\E/version "$ENV{LATEST}"/' \
               "${cask_path}"
 
             if git diff --quiet -- "${cask_path}"; then
-              echo "No change written for ${cask}, skipping commit"
+              echo "No change written for ${cask}, skipping"
               continue
             fi
 
             git add "${cask_path}"
-            git commit -m "${cask}: bump to ${latest}"
+            bumped+=("- ${cask} bump ${current} --> ${latest}")
           done < <(
             brew livecheck --tap josephalton/other-cask-tap --json --newer-only \
               | jq -r '.[]
@@ -56,5 +58,15 @@ jobs:
                 | [(.cask // .formula), .version.current, .version.latest]
                 | @tsv'
           )
+
+          if [[ ${#bumped[@]} -eq 0 ]]; then
+            echo "Nothing to update"
+            exit 0
+          fi
+
+          {
+            echo "casks: bump outdated versions:"
+            printf '%s\n' "${bumped[@]}"
+          } | git commit -F -
 
           git push origin HEAD:"${GITHUB_REF_NAME}"
