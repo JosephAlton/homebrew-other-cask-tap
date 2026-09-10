@@ -27,16 +27,18 @@ jobs:
           GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
         run: |
           set -euo pipefail
-          outdated=$(brew livecheck --tap josephalton/other-cask-tap --json --newer-only \
-            | jq -r '.[] | select(.version.outdated == true) | .cask // .formula')
 
-          if [[ -z "${outdated}" ]]; then
-            echo "Nothing to update"
-            exit 0
-          fi
-
-          for cask in ${outdated}; do
-            brew bump-cask-pr --write-only --commit "${cask}" || echo "Failed: ${cask}"
-          done
+          while IFS=$'\t' read -r cask new_version; do
+            [[ -z "${cask}" || -z "${new_version}" ]] && continue
+            echo "Bumping ${cask} -> ${new_version}"
+            brew bump-cask-pr --write-only --commit --version="${new_version}" "${cask}" \
+              || echo "Failed: ${cask}"
+          done < <(
+            brew livecheck --tap josephalton/other-cask-tap --json --newer-only \
+              | jq -r '.[]
+                | select(.version.outdated == true)
+                | [(.cask // .formula), .version.latest]
+                | @tsv'
+          )
 
           git push origin HEAD:"${GITHUB_REF_NAME}"
