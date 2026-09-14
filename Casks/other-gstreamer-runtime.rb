@@ -1,5 +1,5 @@
 cask "other-gstreamer-runtime" do
-  version "1.28.6"
+  version "1.28.7"
   sha256 :no_check
 
   url "https://gstreamer.freedesktop.org/data/pkg/osx/#{version}/gstreamer-1.0-#{version}-universal.pkg"

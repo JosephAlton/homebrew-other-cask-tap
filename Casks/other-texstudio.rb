@@ -1,7 +1,7 @@
 cask "other-texstudio" do
   arch arm: "-m1"
 
-  version "4.9.7"
+  version "4.9.8"
   sha256 :no_check
 
   url "https://github.com/texstudio-org/texstudio/releases/download/#{version}/texstudio-#{version}-osx#{arch}.zip",
