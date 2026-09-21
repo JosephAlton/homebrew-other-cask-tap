@@ -1,5 +1,5 @@
 cask "other-lyx" do
-  version "2.5.2,6"
+  version "2.5.3,6"
   sha256 :no_check
 
   url "https://ftp.lip6.fr/pub/lyx/bin/#{version.csv.first.major_minor_patch}/LyX-#{version.csv.first}+qt#{version.csv.second}-x86_64-arm64-cocoa.dmg"

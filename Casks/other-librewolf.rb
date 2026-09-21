@@ -1,7 +1,7 @@
 cask "other-librewolf" do
     arch arm: "arm64", intel: "x86_64"
   
-    version "155.0.1,1"
+    version "156.0,1"
     sha256 :no_check
   
     url "https://codeberg.org/api/packages/librewolf/generic/librewolf/#{version.tr(",", "-")}/librewolf-#{version.tr(",", "-")}-macos-#{arch}-package.dmg",
