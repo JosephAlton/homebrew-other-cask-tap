@@ -1,20 +1,10 @@
 cask "other-qbittorrent" do
-  on_catalina :or_older do
-    version "4.6.7"
-    sha256 :no_check
+  version "5.2.3"
+  sha256 :no_check
 
-    livecheck do
-      skip "Legacy version"
-    end
-  end
-  on_big_sur :or_newer do
-    version "5.2.3"
-    sha256 :no_check
-
-    livecheck do
-      url "https://sourceforge.net/projects/qbittorrent/rss?path=/qbittorrent-mac"
-      regex(%r{url=.*?/qbittorrent[._-]v?(\d+(?:\.\d+)+)\.dmg}i)
-    end
+  livecheck do
+    url "https://sourceforge.net/projects/qbittorrent/rss?path=/qbittorrent-mac"
+    regex(%r{url=.*?/qbittorrent[._-]v?(\d+(?:\.\d+)+)\.dmg}i)
   end
 
   url "https://downloads.sourceforge.net/qbittorrent/qbittorrent-mac/qbittorrent-#{version}/qbittorrent-#{version}.dmg",
