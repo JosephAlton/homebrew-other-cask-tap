@@ -1,7 +1,7 @@
 cask "other-mark-text" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.21.2"
+  version "0.22.0"
   sha256 :no_check
 
   url "https://github.com/marktext/marktext/releases/download/v#{version}/marktext-#{arch}.dmg"

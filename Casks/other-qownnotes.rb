@@ -1,5 +1,5 @@
 cask "other-qownnotes" do
-  version "26.10.5"
+  version "26.10.7"
   sha256 :no_check
 
   url "https://github.com/pbek/QOwnNotes/releases/download/v#{version}/QOwnNotes.dmg",
