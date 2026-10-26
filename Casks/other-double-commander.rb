@@ -1,7 +1,7 @@
 cask "other-double-commander" do
   arch arm: "aarch64", intel: "x86_64"
 
-  version "1.1.31"
+  version "1.2.9"
   sha256 :no_check
 
   url "https://downloads.sourceforge.net/doublecmd/doublecmd-#{version.tr(",", "-")}.cocoa.#{arch}.dmg",
@@ -11,8 +11,8 @@ cask "other-double-commander" do
   homepage "https://doublecmd.sourceforge.io/"
 
   livecheck do
-    url "https://sourceforge.net/projects/doublecmd/rss?path=/macOS"
-    regex(%r{url=.*?/doublecmd[._-](\d+(?:[.-]\d+)+)[^"' ]*?\.dmg}i)
+    url "https://sourceforge.net/projects/doublecmd/rss?path=/"
+    regex(%r{url=.*?/doublecmd[._-](\d+(?:[.-]\d+)+)\.cocoa\.(?:aarch64|x86_64)\.dmg}i)
     strategy :sourceforge do |page, regex|
       page.scan(regex).map { |match| match[0].tr("-", ",") }
     end
