@@ -1,7 +1,7 @@
 cask "other-double-commander" do
   arch arm: "aarch64", intel: "x86_64"
 
-  version "1.1.31"
+  version "1.2.9"
   sha256 :no_check
 
   url "https://downloads.sourceforge.net/doublecmd/doublecmd-#{version.tr(",", "-")}.cocoa.#{arch}.dmg",
