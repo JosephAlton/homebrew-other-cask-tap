@@ -1,3 +1,4 @@
+name: Legacy Cask Updates (manual, macOS)
 on:
   workflow_dispatch:
 

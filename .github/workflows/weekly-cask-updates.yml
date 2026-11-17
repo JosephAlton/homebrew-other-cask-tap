@@ -1,4 +1,4 @@
-name: Weekly Cask Updates (Linux test)
+name: Cask updates (weekly)
 
 on:
   schedule:
