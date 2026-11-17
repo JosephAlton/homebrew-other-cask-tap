@@ -5,7 +5,7 @@ cask "other-okular" do
   version "8283"
   sha256 :no_check
 
-  url "https://cdn.kde.org/ci-builds/graphics/okular/master/macos-arm64/okular-master-#{version}-macos-clang-#{arch}.dmg"
+  url "https://cdn.kde.org/ci-builds/graphics/okular/master/macos-#{arch}/okular-master-#{version}-macos-clang-#{arch}.dmg"
   name "Okular"
   desc "Document viewer"
   homepage "https://okular.kde.org/"
