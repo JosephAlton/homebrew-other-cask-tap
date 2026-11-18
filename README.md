@@ -136,6 +136,12 @@ e.g.
 brew remove other-wine-stable
 ```
 
+# Support me
+
+If you’ve found this tap or my work useful, I’d appreciate your support.
+
+[Buy Me a Coffee](https://buymeacoffee.com/adroa)
+
 # Contributing
 
 Contributions/suggestions are welcome. A comment above the Cask .rb file explaining why it is not being added to the main homebrew-cask repository would be useful.
