@@ -2,7 +2,7 @@
 cask "other-okular" do
   arch arm: "arm64", intel: "x86_64"
 
-  version "8283"
+  version "8320"
   sha256 :no_check
 
   url "https://cdn.kde.org/ci-builds/graphics/okular/master/macos-#{arch}/okular-master-#{version}-macos-clang-#{arch}.dmg"
